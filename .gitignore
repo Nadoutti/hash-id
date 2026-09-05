@@ -1,0 +1,125 @@
+# ---------------------------------------------------------------------------
+# Python
+# ---------------------------------------------------------------------------
+__pycache__/
+*.py[codz]
+*$py.class
+*.so
+
+# ---------------------------------------------------------------------------
+# Build / distribuição
+# ---------------------------------------------------------------------------
+build/
+dist/
+sdist/
+wheels/
+*.egg-info/
+*.egg
+.eggs/
+share/python-wheels/
+MANIFEST
+
+# ---------------------------------------------------------------------------
+# Ambientes virtuais
+# ---------------------------------------------------------------------------
+.venv/
+venv/
+env/
+ENV/
+.python-version
+
+# uv: o lock é commitado de propósito (app, não lib) — não ignorar uv.lock
+.uv/
+
+# ---------------------------------------------------------------------------
+# Testes, cobertura e ferramentas
+# ---------------------------------------------------------------------------
+.pytest_cache/
+.ruff_cache/
+.mypy_cache/
+.dmypy.json
+dmypy.json
+.pylint.d/
+.tox/
+.nox/
+.coverage
+.coverage.*
+coverage.xml
+htmlcov/
+.hypothesis/
+*.cover
+
+# ---------------------------------------------------------------------------
+# ML: artefatos e dados (src/ml, assets/)
+# Modelos e datasets são pesados — versionar fora do git.
+# ---------------------------------------------------------------------------
+*.pkl
+*.joblib
+*.h5
+*.pt
+*.pth
+*.onnx
+*.ckpt
+*.npy
+*.npz
+models/
+checkpoints/
+runs/
+mlruns/
+wandb/
+
+# Datasets grandes; libere caso a caso com `!assets/exemplo.csv`
+assets/**/*.csv
+assets/**/*.tsv
+assets/**/*.parquet
+assets/**/*.jsonl
+assets/**/*.txt
+assets/**/*.zip
+assets/**/*.gz
+
+# ---------------------------------------------------------------------------
+# Segredos e configuração local — NUNCA commitar
+# ---------------------------------------------------------------------------
+.env
+.env.*
+!.env.example
+*.pem
+*.key
+*.crt
+*.p12
+secrets.json
+credentials.json
+.secrets/
+
+# ---------------------------------------------------------------------------
+# Notebooks
+# ---------------------------------------------------------------------------
+.ipynb_checkpoints/
+*-checkpoint.ipynb
+
+# ---------------------------------------------------------------------------
+# Editores e IDEs
+# ---------------------------------------------------------------------------
+.vscode/
+.idea/
+*.swp
+*.swo
+*~
+.spyderproject
+.ropeproject
+
+# ---------------------------------------------------------------------------
+# Sistema operacional
+# ---------------------------------------------------------------------------
+.DS_Store
+Thumbs.db
+desktop.ini
+
+# ---------------------------------------------------------------------------
+# Logs e temporários
+# ---------------------------------------------------------------------------
+*.log
+logs/
+tmp/
+*.tmp
+*.bak
