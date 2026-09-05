@@ -27,10 +27,10 @@ DJANGO_PBKDF2 = "pbkdf2_sha256$260000$abcdefgh$Kq3z1YQ2yQm0zXo9nBw5s6f7g8h9i0jK1
 DJANGO_BCRYPT_SHA256 = f"bcrypt_sha256$$2b$12${BCRYPT_BODY}"
 DJANGO_ARGON2 = f"argon2${ARGON2.lstrip('$')}"
 
-# Formato aceito pela regex atual de `_is_drupal7`: `$S$` + 2 dígitos + `$` + 52.
-DRUPAL7_REGEX_SHAPE = "$S$12$" + "D" * 52
-# Formato real do Drupal 7: `$S$` + 52 caracteres, sem separador interno.
-DRUPAL7_REAL = "$S$DkIkdWSVZ2FSTG9uY0hpUFpqZFlkVEE4L2ZuUlZ0Nk9wcS5YWQ"
+# Drupal 7: `$S$` + 52 caracteres de `./A-Za-z0-9`, sem separador interno.
+# O primeiro caractere do corpo é o marcador de rounds; os 8 seguintes são o
+# salt e o resto é o digest — mas a regex só valida charset e comprimento.
+DRUPAL7 = "$S$DkIkdWSVZ2FSTG9uY0hpUFpqZFlkVEE4L2ZuUlZ0Nk9wcS5YWTEy"
 
 MYSQL5 = "*6BB4837EB74329105EE4568DDA7DC67ED2CA2AD9"
 DESCRYPT = "kR2Cv2FqZlnnA"
@@ -66,9 +66,11 @@ def sample_hashes() -> dict[str, str]:
         "sha256_crypt": SHA256_CRYPT,
         "sha512_crypt": SHA512_CRYPT,
         "argon2": ARGON2,
+        "drupal7": DRUPAL7,
         "yescrypt": YESCRYPT,
         "django_pbkdf2": DJANGO_PBKDF2,
         "django_bcrypt_sha256": DJANGO_BCRYPT_SHA256,
+        "django_argon2": DJANGO_ARGON2,
         "mysql5": MYSQL5,
         "descrypt": DESCRYPT,
         "md5": MD5,

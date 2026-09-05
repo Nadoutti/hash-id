@@ -36,8 +36,7 @@ from conftest import (
     DJANGO_ARGON2,
     DJANGO_BCRYPT_SHA256,
     DJANGO_PBKDF2,
-    DRUPAL7_REAL,
-    DRUPAL7_REGEX_SHAPE,
+    DRUPAL7,
     JWT,
     MD5,
     MD5_CRYPT,
@@ -65,7 +64,7 @@ from logic.main import CRYPT_RULES, HEX_LENGTH_RULES, HashCandidate, identify
     [
         pytest.param(BCRYPT, "Bcrypt", id="bcrypt"),
         pytest.param(PHPASS, "PhPass", id="phpass"),
-        pytest.param(DRUPAL7_REGEX_SHAPE, "Drupal7", id="drupal7"),
+        pytest.param(DRUPAL7, "Drupal7", id="drupal7"),
         pytest.param(MD5_CRYPT, "MD5 crypt", id="md5_crypt"),
         pytest.param(APR1, "Apache MD5-crypt", id="apr1"),
         pytest.param(SHA256_CRYPT, "SHA-256 crypt", id="sha256_crypt"),
@@ -75,6 +74,7 @@ from logic.main import CRYPT_RULES, HEX_LENGTH_RULES, HashCandidate, identify
         pytest.param(
             DJANGO_BCRYPT_SHA256, "Django Bcrypt Sha256", id="django_bcrypt_sha256"
         ),
+        pytest.param(DJANGO_ARGON2, "Django Argon2", id="django_argon2"),
     ],
 )
 def test_formato_prefixado_e_reconhecido(sample: str, expected: str) -> None:
@@ -369,49 +369,3 @@ def test_hash_candidate_e_frozen() -> None:
 
     with pytest.raises((AttributeError, TypeError)):
         candidate.algorithm = "SHA-1"  # type: ignore[misc]
-
-
-# =============================================================================
-# Bugs conhecidos em src/logic/main.py
-# =============================================================================
-# Marcados com xfail estrito: o teste descreve o comportamento CORRETO e
-# falha de propósito hoje. Assim que o bug for corrigido, o xfail vira XPASS
-# e a suíte quebra, lembrando de remover o marcador.
-
-
-@pytest.mark.xfail(
-    strict=True, reason="_is_yescrypt casa, mas o candidato sai rotulado como Argon2"
-)
-def test_yescrypt_nao_pode_ser_rotulado_argon2() -> None:
-    assert identify(YESCRYPT)[0].algorithm == "Yescrypt"
-
-
-@pytest.mark.xfail(
-    strict=True,
-    reason="a regex exige `$S$<2 dígitos>$`; o Drupal 7 real é `$S$` + 52 caracteres",
-)
-def test_drupal7_no_formato_real() -> None:
-    assert identify(DRUPAL7_REAL)[0].algorithm == "Drupal7"
-
-
-@pytest.mark.xfail(
-    strict=True,
-    reason="split('$', 1)[1] devolve o inner sem o `$` inicial que _is_argon2 exige",
-)
-def test_django_argon2() -> None:
-    assert identify(DJANGO_ARGON2)[0].algorithm == "Django Argon2"
-
-
-# =============================================================================
-# Formatos ainda não suportados
-# =============================================================================
-# O suíte de referência cobria NetNTLMv1 (`user::dom:lm(48 hex):nt(48 hex):
-# desafio`) e NetNTLMv2 (`user::dom:desafio:hmac(32 hex):blob`). Esta
-# implementação não os reconhece, então os testes viraram este xfail único:
-# ele documenta a lacuna e passa a valer sozinho quando o suporte entrar.
-
-
-@pytest.mark.xfail(strict=True, reason="NetNTLM ainda não implementado em logic.main")
-def test_netntlmv2_e_reconhecido() -> None:
-    sample = "alice::CORP:1122334455667788:" + "a" * 32 + ":" + "b" * 64
-    assert identify(sample)[0].algorithm == "NetNTLMv2"

@@ -1,31 +1,3 @@
-# ©AngelaMos | 2026
-# Copyright (C) 2026 Murilo Miacci
-# justfile
-#
-# Um "justfile" é uma lista de comandos que você pode executar com `just <nome>`.
-# Pense nele como o centro de comando de um projeto — em vez de lembrar de
-# `uv run pytest -v`, você apenas digita `just test`.
-#
-# Por que usar just em vez de make? É mais simples, multiplataforma
-# e a sintaxe é mais fácil de ler.
-#
-# Mostrar todos os comandos: `just`
-# Executar um comando:       `just <nome>`     (ex: `just setup`)
-
-# Exporta cada variável definida aqui como uma variável de ambiente para
-# as receitas que o just executa.
-set export
-# No Linux/macOS, executa as linhas da receita com bash e -u (erro em
-# variáveis não definidas) e -c (lê comandos de uma string).
-set shell := ["bash", "-uc"]
-# No Windows, recorre ao PowerShell de forma não interativa.
-set windows-shell := ["powershell.exe", "-NoLogo", "-Command"]
-# Torna os argumentos da receita disponíveis para scripts shebang como `$1`, `$2`,
-# `$@` e `$#`. Sem isso, receitas shebang só veriam argumentos via substituição
-# textual `{{args}}`, o que é inseguro para entradas que contêm `$` (o texto
-# substituído seria re-expandido pelo bash).
-set positional-arguments
-
 # Mostra os comandos disponíveis quando você executa `just` sem argumentos.
 default:
     @just --list --unsorted

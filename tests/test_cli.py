@@ -102,10 +102,6 @@ def test_hash_aparece_no_titulo(
     assert "Bcrypt" in capsys.readouterr().out
 
 
-@pytest.mark.xfail(
-    strict=True,
-    reason="`print(len(text))` de depuração ficou em logic.main.identify",
-)
 def test_sem_saida_de_depuracao(
     monkeypatch: pytest.MonkeyPatch, capsys: pytest.CaptureFixture[str]
 ) -> None:
