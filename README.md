@@ -28,23 +28,6 @@ contrário.
 
 ---
 
-## Por que este projeto existe
-
-Nasceu de uma auditoria da implementação de referência usada no Insper Sec
-([`hash_identifier.py`](https://github.com/gitinspersec/Projetos/blob/main/projects/Individual/a-Hash_ID/hash_identifier.py)).
-A versão original identificava hashes por `startswith()` — olhava só o prefixo
-e ignorava o resto da string.
-
-O efeito prático: `$2b$qualquercoisa` era reportado como **bcrypt com alta
-confiança**. Sem cost factor, sem os 60 caracteres obrigatórios, sem validar o
-charset do corpo. Um falso positivo confiante é pior que nenhuma resposta —
-quem recebe "bcrypt, high" para de investigar.
-
-A reescrita troca prefixo por validação estrutural. O relatório completo dos
-erros encontrados está em [`src/logic/ERRORS.md`](src/logic/ERRORS.md).
-
----
-
 ## Como funciona
 
 `identify()` roda uma cascata de três camadas. Cada camada é mais fraca que a
@@ -233,7 +216,6 @@ Três padrões que a suíte usa:
 ```
 src/logic/main.py     identificação + CLI
 src/logic/ERRORS.md   auditoria da implementação de referência
-src/ml/               abordagem por ML (em desenvolvimento)
 tests/                suíte pytest
 justfile              comandos do projeto
 ```
